@@ -208,6 +208,10 @@ const loadPromptFromLibrary = async (promptId: number) => {
       if (prompt.prompt_type === 'user') {
         // 用户提示词 - 加载到用户提示词优化标签页
         activeMode.value = 'user'
+        // 设置loadedPromptId（关键！）
+        optimizeStore.setLoadedPromptId(prompt.id)
+        console.log('🔵 用户提示词 - 设置loadedPromptId:', prompt.id)
+        
         // 这里需要通过store或者事件将数据传递给OptimizeSectionRedesign
         // 暂时使用localStorage作为中转
         const userData = {
@@ -221,6 +225,8 @@ const loadPromptFromLibrary = async (promptId: number) => {
         // 系统提示词 - 加载到系统提示词优化标签页
         activeMode.value = 'system'
         optimizeStore.systemPrompt = prompt.final_prompt
+        optimizeStore.setLoadedPromptId(prompt.id)
+        console.log('🔵 系统提示词 - 设置loadedPromptId:', prompt.id)
         console.log('🔵 设置系统提示词到store:', prompt.final_prompt?.substring(0, 50))
       }
       
